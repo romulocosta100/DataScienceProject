@@ -10,6 +10,10 @@ import editdistance
 from nltk import ngrams
 import random
 import time
+import timeit
+
+M = np.empty([1,1])
+
 
 def remover_acentos(txt, codif='utf-8'):
 	return normalize('NFKD', txt).encode('ASCII','ignore')
@@ -67,12 +71,19 @@ def minhashSignature(docs,nhash):
 	col = 0
 	for doc in docs:
 		for shingle in doc:
+			start = time.time()
 			shingleHashs = [ funHash(shingle) for funHash in hashs ]
+			end = time.time()
+			print ('HS     : %f' % (end - start))
 
+			start = time.time()
 			row = 0
 			for sh in shingleHashs:
 				matrix[row][col] = min(matrix[row][col],sh)
 				row+=1
+			end = time.time()
+			print ('min sh : %f' % (end - start))
+
 
 		col+=1
 
@@ -88,17 +99,17 @@ def dfs_paths(graph):
 		if node not in visited:
 			aux+=1
 			start = node
-			print "[ ",
+			#print "[ ",
 			stack = [start]	
 			while stack:
 				vertex = stack.pop()
 				if vertex not in visited:
 					itemGrupo[vertex] = aux
-					print vertex,
+					#print vertex,
 					visited.add(vertex)
 					for neighbor in graph[vertex]:
 						stack.append(neighbor)
-			print " ]\n"
+			#print " ]\n"
 
 	return itemGrupo
 
@@ -109,6 +120,7 @@ def concatList(A):
 	return out
 
 def localitySensitiveHashing(r, band, matrix,t):
+	start = time.time()
 	row, col = np.shape(matrix)
 	inicio = 0
 	
@@ -130,8 +142,12 @@ def localitySensitiveHashing(r, band, matrix,t):
 
 
 		inicio = inicio+r
+	end = time.time()
+	print ('Calcular buckets : %f' % (end - start))
+
 	grafo = {}
 
+	start = time.time()
 	for buckets in bandBuckets:
 
 		for key,bucket in buckets.items():
@@ -139,31 +155,54 @@ def localitySensitiveHashing(r, band, matrix,t):
 			for a in bucket:
 				for b in bucket:
 					if(a!=b):
-						if(compute_jaccard_index(set(matrix[:,a]),set(matrix[:,b]))>=t):
+						#Memorizacao
+						if(M[a][b]==np.inf):
+							M[a][b] = compute_jaccard_index(set(matrix[:,a]),set(matrix[:,b]))
+							M[b][a] = M[a][b]
+
+						if(M[a][b]>=t):
 							if(a in grafo):
 								grafo[a].add(b)
 							else:
 								grafo[a] = set([b])
 
 	dfs_paths(grafo)
+	end = time.time()
+	print ('Calcular distancias : %f' % (end - start))
 
 
 
 
 if __name__ == "__main__":
 
-	with open('Dataset-Treino-Anonimizado-3.json') as data_file:
-		dataSet = json.load(data_file)
+	for v in [200,400,800,1600,3200]:
+		print str(v)," vagas :"
+		with open(str(v)+'vagas.json') as data_file:
+			dataSet = json.load(data_file)
 
-	docs = []
-	k = 6
+		docs = []
+		k = 6
 
-	for vaga1 in dataSet:
-		textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
+		start = time.time()
+		for vaga1 in dataSet:
+			textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
 
-		docs.append(hashed_k_shingle(textoVaga1,6))
+			docs.append(hashed_k_shingle(textoVaga1,6))
+		end = time.time()
+		print ('limpar texto: %f' % (end - start))
 
-	matrix = minhashSignature(docs,200)
 
-	print localitySensitiveHashing(20,10,matrix,0.8)
+		start = time.time()
+		matrix = minhashSignature(docs,200)
+		end = time.time()
+		print ('Construir a matrix : %f' % (end - start))
+
+		
+		# global M
+		# M = np.full((v,v), np.inf)
+		# localitySensitiveHashing(20,v/20,matrix,0.8)
+
+
+		print "\n*************************\n"
+
 	
