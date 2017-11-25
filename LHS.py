@@ -9,6 +9,7 @@ import mmh3
 import editdistance
 from nltk import ngrams
 import random
+import time
 
 def remover_acentos(txt, codif='utf-8'):
 	return normalize('NFKD', txt).encode('ASCII','ignore')
@@ -27,6 +28,10 @@ def toClean(text):
 
 	return text
 
+def compute_jaccard_index(set_1, set_2):
+    n = len(set_1.intersection(set_2))
+    return n / float(len(set_1) + len(set_2) - n) 
+    
 def jaccardSimilarity(S,T):
 	return len( S & T )/float(len ( S | T ))
 
@@ -73,42 +78,92 @@ def minhashSignature(docs,nhash):
 
 	return matrix
 
+def dfs_paths(graph):
+	aux = 0
+	
+	itemGrupo = {}
+
+	visited = set()
+	for node in graph.keys():
+		if node not in visited:
+			aux+=1
+			start = node
+			print "[ ",
+			stack = [start]	
+			while stack:
+				vertex = stack.pop()
+				if vertex not in visited:
+					itemGrupo[vertex] = aux
+					print vertex,
+					visited.add(vertex)
+					for neighbor in graph[vertex]:
+						stack.append(neighbor)
+			print " ]\n"
+
+	return itemGrupo
+
+def concatList(A):
+	out = ""
+	for a in A:
+		out+=str(a)
+	return out
+
+def localitySensitiveHashing(r, band, matrix,t):
+	row, col = np.shape(matrix)
+	inicio = 0
+	
+	bandBuckets = [{} for _ in xrange(band)]
+
+	hashFunc = randomHash(100)
+
+	for b in xrange(band):
+		signaturePerBands = np.apply_along_axis(concatList,0, matrix[inicio:inicio+r,:])
+
+		
+		for i in xrange(col):
+			hashValue = hashFunc(signaturePerBands[i])
+
+			if hashValue in bandBuckets[b]:
+				bandBuckets[b][hashValue].add(i)
+			else:
+				bandBuckets[b][hashValue] = set([i])
+
+
+		inicio = inicio+r
+	grafo = {}
+
+	for buckets in bandBuckets:
+
+		for key,bucket in buckets.items():
+
+			for a in bucket:
+				for b in bucket:
+					if(a!=b):
+						if(compute_jaccard_index(set(matrix[:,a]),set(matrix[:,b]))>=t):
+							if(a in grafo):
+								grafo[a].add(b)
+							else:
+								grafo[a] = set([b])
+
+	dfs_paths(grafo)
+
+
+
 
 if __name__ == "__main__":
-	#sentence = 'this is a foo bar sentences and i want to ngramize it'
-	#shingles = hashed_k_shingle(sentence,6)
-	#print (shingles)
 
-	# doc1 = set([0,3])
-	# doc2 = set([2])
-	# doc3 = set([1,3,4])
-	# doc4 = set([0,2,3])
-    #
-	# docs = [doc1,doc2,doc3,doc4 ]
-    #
-	# print minhashSignature(docs,10)
-
-
-	with open('15vagas.json') as data_file:
+	with open('Dataset-Treino-Anonimizado-3.json') as data_file:
 		dataSet = json.load(data_file)
 
 	docs = []
 	k = 6
+
 	for vaga1 in dataSet:
 		textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
 
 		docs.append(hashed_k_shingle(textoVaga1,6))
 
+	matrix = minhashSignature(docs,200)
 
-	matrix = minhashSignature(docs,95)
-
-	textoVaga1 = toClean(dataSet[1]['title'] + " " + dataSet[1]['description'])
-	textoVaga8 = toClean(dataSet[4]['title'] + " " + dataSet[4]['description'])
-	print  textoVaga1
-	print "________________________"
-	print  textoVaga8
-	print "real:     ", jaccardSimilarity(hashed_k_shingle(textoVaga1,6) , hashed_k_shingle(textoVaga8,6))
-
-	col1 = matrix[:,1]
-	col8 = matrix[:,4]
-	print "estimado: ",jaccardSimilarity(set(col1), set(col8) )
+	print localitySensitiveHashing(20,10,matrix,0.8)
+	
