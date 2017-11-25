@@ -69,25 +69,35 @@ def minhashSignature(docs,nhash):
 	hashs = [randomHash(seed) for seed in randomSeeds ]
 
 	col = 0
+	timeFun = 0
+	timeSh  = 0
 	for doc in docs:
+		start = time.time()
 		for shingle in doc:
 			start = time.time()
 			shingleHashs = [ funHash(shingle) for funHash in hashs ]
 			end = time.time()
-			print ('HS     : %f' % (end - start))
+			timeFun += (end-start)
+			#print ('HS     : %f' % (end - start))
 
 			start = time.time()
-			row = 0
-			for sh in shingleHashs:
-				matrix[row][col] = min(matrix[row][col],sh)
-				row+=1
+			# row = 0
+			# for sh in shingleHashs:
+			# 	matrix[row][col] = min(matrix[row][col],sh)
+			# 	row+=1
+			matrix[:,col] = np.minimum(matrix[:,col],shingleHashs)
 			end = time.time()
-			print ('min sh : %f' % (end - start))
-
+			timeSh += (end-start)
+			#print ('min sh : %f' % (end - start))
+		end = time.time()
+		#print ('make line: %f' % (end - start))
 
 		col+=1
 
+	print ('app funhash: %f'  %timeFun)
+	print ('fill matrix: %f'   %timeSh)
 	return matrix
+
 
 def dfs_paths(graph):
 	aux = 0
@@ -99,17 +109,17 @@ def dfs_paths(graph):
 		if node not in visited:
 			aux+=1
 			start = node
-			#print "[ ",
+			print "[ ",
 			stack = [start]	
 			while stack:
 				vertex = stack.pop()
 				if vertex not in visited:
 					itemGrupo[vertex] = aux
-					#print vertex,
+					print vertex,
 					visited.add(vertex)
 					for neighbor in graph[vertex]:
 						stack.append(neighbor)
-			#print " ]\n"
+			print " ]\n"
 
 	return itemGrupo
 
@@ -175,34 +185,35 @@ def localitySensitiveHashing(r, band, matrix,t):
 
 if __name__ == "__main__":
 
-	for v in [200,400,800,1600,3200]:
-		print str(v)," vagas :"
-		with open(str(v)+'vagas.json') as data_file:
-			dataSet = json.load(data_file)
+	#for v in [200,400,800,1600,3200]:
+	#print str(v)," vagas :"
+	v = 200
+	with open(str(v)+'vagas.json') as data_file:
+		dataSet = json.load(data_file)
 
-		docs = []
-		k = 6
+	docs = []
+	k = 6
 
-		start = time.time()
-		for vaga1 in dataSet:
-			textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
+	start = time.time()
+	for vaga1 in dataSet:
+		textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
 
-			docs.append(hashed_k_shingle(textoVaga1,6))
-		end = time.time()
-		print ('limpar texto: %f' % (end - start))
-
-
-		start = time.time()
-		matrix = minhashSignature(docs,200)
-		end = time.time()
-		print ('Construir a matrix : %f' % (end - start))
-
-		
-		# global M
-		# M = np.full((v,v), np.inf)
-		# localitySensitiveHashing(20,v/20,matrix,0.8)
+		docs.append(hashed_k_shingle(textoVaga1,6))
+	end = time.time()
+	print ('limpar texto: %f' % (end - start))
 
 
-		print "\n*************************\n"
+	start = time.time()
+	matrix = minhashSignature(docs,200)
+	end = time.time()
+	print ('Construir a matrix : %f' % (end - start))
+
+	
+	global M
+	M = np.full((v,v), np.inf)
+	localitySensitiveHashing(20,10,matrix,0.8)
+
+
+	print "\n*************************\n"
 
 	
