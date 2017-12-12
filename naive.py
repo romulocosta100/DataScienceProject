@@ -94,11 +94,11 @@ if __name__ == "__main__":
 
 	# a = 22
 	# b = 436
-	# print toClean(dataSet[a]['title']+" "+dataSet[a]['description'])
+	# print to_clean(dataSet[a]['title']+" "+dataSet[a]['description'])
 	# print "------------------------"
-	# print toClean (dataSet[b]['title']+" "+dataSet[b]['description'])
+	# print to_clean (dataSet[b]['title']+" "+dataSet[b]['description'])
 
-	# print levenshtein( toClean(dataSet[a]['title']+" "+dataSet[a]['description']),toClean(dataSet[b]['title']+" "+dataSet[b]['description'] ) )
+	# print levenshtein( to_clean(dataSet[a]['title']+" "+dataSet[a]['description']),to_clean(dataSet[b]['title']+" "+dataSet[b]['description'] ) )
 	
 	grafo = {}
 	setVisitados = set()
