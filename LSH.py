@@ -178,7 +178,54 @@ def concatList(A):
 		out+=str(a)
 	return out
 
-def localitySensitiveHashing(r, band, matrix,t):
+def buildConfusionMatrix(gab, resp):
+	for cluster in gab.keys():
+		# print "c--", cluster, type(cluster)
+		l1 = list(gab[cluster])
+		for i in xrange(len(l1)):
+			for j in xrange(i+1,len(l1)):
+				a = (l1[i], l1[j])
+				flag = True
+				for r in resp.keys():
+					l2 = list(resp[r])
+					if flag:	
+						for k in xrange(len(l2)):
+							for l in xrange(k+1,len(l2)):
+								b = (l2[k], l2[l])
+								# print a, "--",b
+								if a == b:
+									M[0]+=1
+									flag = False
+									break
+				if flag:
+					M[1] += 1
+	#quantos estao em resp e nao estao
+	# print "********************************"
+	for cluster in resp.keys():
+	# 	print "c--", cluster, type(cluster)
+		l1 = list(resp[cluster])
+		for i in xrange(len(l1)):
+			for j in xrange(i+1,len(l1)):
+				a = (l1[i], l1[j])
+				flag = True
+				for r in gab.keys():
+					l2 = list(gab[r])
+					if flag:	
+						for k in xrange(len(l2)):
+							for l in xrange(k+1,len(l2)):
+								b = (l2[k], l2[l])
+								# print a, "--",b
+								if a == b:
+									flag = False
+									break
+				if flag:
+					M[2] += 1
+	print "precision: ", M[0]/(M[0]+M[1])
+	print "recall: ", M[0]/(M[0]+M[2])
+	return M							
+
+
+def localitySensitiveHashing(r, band, matrix,t,docs):
 	start = time.time()
 	row, col = np.shape(matrix)
 	inicio = 0
@@ -205,48 +252,49 @@ def localitySensitiveHashing(r, band, matrix,t):
 	print ('Calcular buckets : %f' % (end - start))
 
 	start = time.time()
+	setVisitados = set([])
 	for buckets in bandBuckets:
 
 		for key,bucket in buckets.items():
-
 			for a in bucket:
-				for b in bucket:
-					if(a!=b):
-						#Memorizacao
-						if(M[a][b]==np.inf):
-							M[a][b] = compute_jaccard_index(set(matrix[:,a]),set(matrix[:,b]))
-							M[b][a] = M[a][b]
-
-						if(M[a][b]>=t):
-							
-							grafo[a].add(b)
+				if a not in setVisitados:
+					for b in bucket:
+						if(a!=b):
+							#Memorizacao
+							if(M[a][b]==np.inf):
+								M[a][b] = compute_jaccard_index(set(matrix[:,a]),set(matrix[:,b]))
+								#M[a][b] = docs[a],docs[b]
+								M[b][a] = M[a][b]	
+							if(M[a][b]>=t):
+								grafo[a].add(b)
+								setVisitados.add(b)
 
 	itemGrupo = dfs_paths(grafo)
 	end = time.time()
 	print ('Calcular distancias : %f' % (end - start))
 
-	with open("LSHgabarito100.csv", "wb") as csv_file:
+	with open("teste.csv", "wb") as csv_file:
 		writer = csv.writer(csv_file, delimiter=',')
 		for key in itemGrupo:
 			writer.writerow([key, itemGrupo[key]])
-
 
 if __name__ == "__main__":
 
 	#for v in [200,400,800,1600,3200]:
 	#print str(v)," vagas :"
-	v = 100
-	nhash = 300
-	with open(str(v)+'vagas.json') as data_file:
+	v = 200
+	nhash = 100
+	with open('200vagas.json') as data_file:
 		dataSet = json.load(data_file)
 
 	docs = []
+	v = len(dataSet)
 	k = 6
 
 	start = time.time()
 	for vaga1 in dataSet:
 		textoVaga1 = toClean(vaga1['title'] + " " + vaga1['description'])
-		docs.append(hashed_k_shingle(textoVaga1,6))
+		docs.append(hashed_k_shingle(textoVaga1,k))
 		grafo[int(vaga1['id'])] = set()
 	end = time.time()
 	print ('limpar texto: %f' % (end - start))
@@ -257,15 +305,11 @@ if __name__ == "__main__":
 	end = time.time()
 	print ('Construir a matrix 1: %f' % (end - start))
 
-	
-
-
 	print matrix
 	print "***********************\n"
 
-	# global M
-	# M = np.full((v,v), np.inf)
-	# localitySensitiveHashing(30,10,matrix,0.8)
-
+	global M
+	M = np.full((v,v), np.inf)
+	localitySensitiveHashing(10,10,matrix,0.8,docs)
 
 	print "\n*************************\n"

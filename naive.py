@@ -61,7 +61,6 @@ def toClean(text):
 
 	return text
 
-
 def dfs_paths(graph):
 	aux = 0
 	
@@ -89,11 +88,11 @@ def dfs_paths(graph):
 
 if __name__ == "__main__":
 	
-	with open('Dataset-Treino-Anonimizado-3.json') as data_file:
+	with open('500vagas.json') as data_file:
 		dataSet = json.load(data_file)
 
-	# a = 22
-	# b = 436
+	# a = 44
+	# b = 8223
 	# print toClean(dataSet[a]['title']+" "+dataSet[a]['description'])
 	# print "------------------------"
 	# print toClean (dataSet[b]['title']+" "+dataSet[b]['description'])
@@ -101,11 +100,10 @@ if __name__ == "__main__":
 	# print levenshtein( toClean(dataSet[a]['title']+" "+dataSet[a]['description']),toClean(dataSet[b]['title']+" "+dataSet[b]['description'] ) )
 	
 	grafo = {}
-	setVisitados = set()
+	setVisitados = set([])
 	for vaga1 in dataSet:
 		textoVaga1 = toClean(vaga1['title']+" "+vaga1['description'])
-		
-		
+			
 		grafo[int(vaga1['id'])] = set()
 
 
@@ -121,13 +119,25 @@ if __name__ == "__main__":
 					if valor==1.0:
 						setVisitados.add(vaga1['id'])
 					 	setVisitados.add(vaga2['id'])
-					if valor>0.68:
+					if valor>0.8:
 						grafo[int(vaga1['id'])].add(int(vaga2['id']))
+						setVisitados.add(vaga2['id'])
+						# duplicatas = grafo[int(vaga1['id'])]
+						# flag = True
+						# for no in duplicatas:
+						# 	textoVagaNo = toClean(dataSet[no]['title']+" "+dataSet[no]['description'])
+						# 	d = int(editdistance.eval(textoVagaNo,textoVaga2))
+						# 	valor = 1 - d/float(max( len(textoVagaNo),len(textoVaga2)) )
+						# 	if valor < 0.68:
+						# 		flag = False
+						# 		break
+						# if flag:
+						# 	grafo[int(vaga1['id'])].add(int(vaga2['id']))
 						#print "distancia entre ",vaga1['id']," ",vaga2['id'], 'd ', valor
 
 	itemGrupo = dfs_paths(grafo)
 
-	with open("gabaritoNEW.csv", "wb") as csv_file:
+	with open("resultados/500vagasGABARITO.csv", "wb") as csv_file:
 		writer = csv.writer(csv_file, delimiter=',')
 		for vaga in dataSet:
 			ID = int(vaga['id'])

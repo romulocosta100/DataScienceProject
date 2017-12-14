@@ -188,7 +188,7 @@ if __name__ == "__main__":
 	#for v in [200,400,800,1600,3200]:
 	#print str(v)," vagas :"
 	v = 200
-	with open(str(v)+'vagas.json') as data_file:
+	with open('Dataset-Treino-Anonimizado-3.json') as data_file:
 		dataSet = json.load(data_file)
 
 	docs = []

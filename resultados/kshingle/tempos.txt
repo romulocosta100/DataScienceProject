@@ -1,0 +1,137 @@
+3-shingle
+	limpar texto: 6.874871
+	app funhash: 131.432012
+	fill matrix: 27.547673
+	juntar matrix
+	Calcular buckets : 3.165491
+	DBSCAN : 43.692704
+	execução : 264.711521
+
+4-shingle
+	limpar texto: 7.475706
+	app funhash: 171.344509
+	fill matrix: 38.174459
+	Calcular buckets : 3.664746
+	DBSCAN : 30.630260
+	execução : 276.340079
+
+5-shingle
+	limpar texto: 7.920391
+	app funhash: 188.618372
+	fill matrix: 40.175335
+	Calcular buckets : 4.317903
+	DBSCAN : 6.408395
+	execução : 265.998109
+
+6-shingle
+	limpar texto: 7.767524
+	app funhash: 204.407383
+	fill matrix: 43.888214
+	Calcular buckets : 3.110713
+	DBSCAN : 0.945098
+	execução : 276.813413
+
+7-shingle
+	limpar texto: 7.737143
+	app funhash: 211.455439
+	fill matrix: 45.302717
+	Calcular buckets : 3.461760
+	DBSCAN : 0.949109
+	execução : 285.340147
+
+8-shingle
+	limpar texto: 8.135472
+	app funhash: 216.034925
+	fill matrix: 46.863324
+	Calcular buckets : 3.463327
+	DBSCAN : 0.949659
+	execução : 290.927889
+
+9-shingle
+	limpar texto: 8.460831
+	app funhash: 220.903913
+	fill matrix: 48.388283
+	fim processo 3
+	Calcular buckets : 3.474478
+	DBSCAN : 0.953822
+	execução : 298.159791
+
+10-shingle
+	limpar texto: 8.757383
+	app funhash: 223.139137
+	fill matrix: 49.204866
+	Calcular buckets : 3.304503
+	DBSCAN : 0.959653
+	execução : 301.104888
+
+11-shingle
+	limpar texto: 9.215803
+	app funhash: 225.158376
+	fill matrix: 49.115340
+	Calcular buckets : 3.229631
+	DBSCAN : 0.959289
+	execução : 302.844798
+
+12-shingle
+	limpar texto: 9.680050
+	app funhash: 226.160984
+	fill matrix: 49.181554
+	Calcular buckets : 3.232411
+	DBSCAN : 0.955363
+	execução : 304.322717
+
+13-shingle
+	limpar texto: 10.464897
+	app funhash: 229.592551
+	fill matrix: 50.618986
+	Calcular buckets : 3.511032
+	DBSCAN : 0.957027
+	execução : 310.642389
+
+14-shingle
+	limpar texto: 10.885145
+	app funhash: 228.466783
+	fill matrix: 50.052383
+	Calcular buckets : 3.464844
+	DBSCAN : 0.955326
+	execução : 309.687061
+
+15-shingle
+	limpar texto: 11.333269
+	app funhash: 229.539504
+	fill matrix: 49.805403
+	Calcular buckets : 3.404607
+	DBSCAN : 0.952327
+	execução : 310.242390
+	
+16-shingle
+	limpar texto: 11.602425
+	app funhash: 229.921677
+	fill matrix: 50.234154
+	Calcular buckets : 3.537776
+	DBSCAN : 0.954949
+	execução : 311.982405
+
+17-shingle
+	limpar texto: 12.009121
+	app funhash: 229.674349
+	fill matrix: 51.171540
+	Calcular buckets : 3.514422
+	DBSCAN : 0.956522
+	execução : 312.620632
+	
+18-shingle
+	limpar texto: 12.432143
+	app funhash: 231.590741
+	fill matrix: 51.543593
+	Calcular buckets : 3.276528
+	DBSCAN : 1.160570
+	execução : 314.587771
+
+19-shingle
+	limpar texto: 12.539277
+	app funhash: 230.091489
+	fill matrix: 48.906229
+	Calcular buckets : 3.210366
+	DBSCAN : 0.954061
+	execução : 310.083935

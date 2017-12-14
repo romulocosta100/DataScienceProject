@@ -1,0 +1,188 @@
+nhash:  200  row: 4
+limpar texto: 7.601736
+juntar matrix
+Calcular buckets : 4.963094
+DBSCAN : 0.760906
+execução: 322.639140
+
+nhash:  200  row: 5
+limpar texto: 7.471272
+juntar matrix
+Calcular buckets : 4.217392
+DBSCAN : 1.259375
+execução: 295.541695
+
+nhash:  200  row: 10
+limpar texto: 7.628436
+juntar matrix
+Calcular buckets : 3.139535
+DBSCAN : 0.963820
+execução: 279.141531
+
+nhash:  300  row: 4
+limpar texto: 7.552289
+juntar matrix
+Calcular buckets : 7.475036
+DBSCAN : 1.036275
+execução: 481.364510
+
+nhash:  300  row: 5
+limpar texto: 7.719567
+juntar matrix
+Calcular buckets : 6.630530
+DBSCAN : 3.059355
+execução: 433.289287
+
+nhash:  300  row: 10
+limpar texto: 7.633258
+juntar matrix
+Calcular buckets : 4.983775
+DBSCAN : 0.977880
+execução: 399.944438
+
+nhash:  400  row: 4
+limpar texto: 7.517928
+juntar matrix
+Calcular buckets : 9.832706
+DBSCAN : 0.975679
+execução: 621.425536
+
+nhash:  400  row: 5
+limpar texto: 7.538932
+juntar matrix
+Calcular buckets : 8.642975
+DBSCAN : 0.973489
+execução: 547.980637
+
+nhash:  400  row: 10
+limpar texto: 7.607052
+juntar matrix
+Calcular buckets : 6.480335
+DBSCAN : 0.969851
+execução: 525.725973
+
+nhash:  500  row: 4
+limpar texto: 7.609607
+juntar matrix
+Calcular buckets : 12.126666
+DBSCAN : 10.740137
+execução: 762.869306
+
+nhash:  500  row: 5
+limpar texto: 9.288763
+juntar matrix
+Calcular buckets : 11.232378
+DBSCAN : 3.297016
+execução: 779.044276
+
+nhash:  500  row: 10
+limpar texto: 7.887966
+juntar matrix
+Calcular buckets : 8.175902
+DBSCAN : 0.980321
+execução: 705.281443
+
+nhash:  600  row: 4
+limpar texto: 7.780841
+juntar matrix
+Calcular buckets : 14.248882
+DBSCAN : 0.980904
+execução: 897.943938
+
+nhash:  600  row: 5
+limpar texto: 7.584566
+juntar matrix
+Calcular buckets : 12.763186
+DBSCAN : 0.965471
+execução: 806.069427
+
+nhash:  600  row: 10
+limpar texto: 7.567737
+juntar matrix
+Calcular buckets : 9.693866
+DBSCAN : 0.969029
+execução: 765.539122
+
+nhash:  700  row: 4
+limpar texto: 7.550991
+juntar matrix
+Calcular buckets : 16.730912
+DBSCAN : 0.987503
+execução: 1035.098686
+
+nhash:  700  row: 5
+limpar texto: 7.538685
+juntar matrix
+Calcular buckets : 15.008775
+DBSCAN : 0.976399
+execução: 921.003308
+
+nhash:  700  row: 10
+limpar texto: 7.522774
+juntar matrix
+Calcular buckets : 11.213646
+DBSCAN : 0.970985
+execução: 896.038078
+
+nhash:  800  row: 4
+limpar texto: 7.558977
+juntar matrix
+Calcular buckets : 19.330151
+DBSCAN : 0.981852
+execução: 1184.463937
+
+nhash:  800  row: 5
+limpar texto: 7.552569
+juntar matrix
+Calcular buckets : 16.913377
+DBSCAN : 0.962316
+execução: 1060.282619
+
+nhash:  800  row: 10
+limpar texto: 7.602926
+juntar matrix
+Calcular buckets : 13.012408
+DBSCAN : 0.966117
+execução: 1017.283420
+
+nhash:  900  row: 4
+limpar texto: 7.524105
+juntar matrix
+Calcular buckets : 21.346525
+DBSCAN : 0.976525
+execução: 1312.090864
+
+nhash:  900  row: 5
+limpar texto: 7.604312
+juntar matrix
+Calcular buckets : 18.882838
+DBSCAN : 0.961826
+execução: 1193.081483
+
+nhash:  900  row: 10
+limpar texto: 7.580254
+juntar matrix
+Calcular buckets : 14.573232
+DBSCAN : 0.969849
+execução: 1131.501145
+
+nhash:  1000  row: 4
+limpar texto: 7.690362
+juntar matrix
+Calcular buckets : 23.514011
+DBSCAN : 0.964474
+execução: 1453.376866
+
+nhash:  1000  row: 5
+limpar texto: 7.549135
+juntar matrix
+Calcular buckets : 21.000686
+DBSCAN : 0.966192
+execução: 1316.435463
+
+nhash:  1000  row: 10
+limpar texto: 7.517381
+juntar matrix
+Calcular buckets : 16.257252
+DBSCAN : 0.968631
+execução: 1256.653067
